@@ -4,13 +4,89 @@ println("UW Homework: Simple Kotlin")
 
 // write a "whenFn" that takes an arg of type "Any" and returns a String
 
-// write an "add" function that takes two Ints, returns an Int, and adds the values
+    fun whenFn(arg: Any): String {
+        when(arg){
+            "Hello" -> return "world"
+            is String -> return "Say what?"
+            0 -> return "zero"
+            1-> return "one"
+            in 2..10 -> return "low number"
+            is Int -> return "a number"
+            else -> return "I don't understand"
+        }
+    }
+
+    // write an "add" function that takes two Ints, returns an Int, and adds the values
+    fun add(first: Int, second: Int): Int {
+        return first + second
+    }
 // write a "sub" function that takes two Ints, returns an Int, and subtracts the values
-// write a "mathOp" function that takes two Ints and a function (that takes two Ints and returns an Int), returns an Int, and applies the passed-in-function to the arguments
 
-// write a class "Person" with first name, last name and age
+    fun sub (first: Int, second: Int) : Int {
+        return first - second
+    }
+    // write a "mathOp" function that takes two Ints and a function (that takes two Ints and returns an Int), returns an Int, and applies the passed-in-function to the arguments
+    fun mathOp(first: Int, second: Int, operation: (num1: Int, num2 : Int) -> Int) : Int {
+        return operation(first, second)
+    }
 
-// write a class "Money"
+    // write a class "Person" with first name, last name and age
+    class Person(var firstName: String, var lastName: String, var age: Int) {
+        var fn: String
+        var ln: String
+        var a: Int
+
+        init{
+            fn = firstName
+            ln = lastName
+            a = age
+        }
+
+        val debugString: String
+            get(){
+                return "[Person firstName:$firstName lastName:$lastName age:$age]"
+            }
+
+        fun equals(somePerson: Person): Boolean{
+            return this.equals(somePerson)
+        }
+
+        override fun hashCode(): Int{
+            return (firstName.hashCode() + lastName.hashCode()) * age
+        }
+
+
+    }
+    // write a class "Money"
+    class Money(var amount: Int, var currency: String){
+        init{
+            if(amount < 0 || (!currency.equals("USD") && !currency.equals("EUR") && !currency.equals("CAN") && !currency.equals("GBP"))){
+                throw IllegalArgumentException()
+            }
+        }
+        fun convert(con: String): Money{
+            var total: Int = amount
+            when(this.currency){
+                "EUR" -> total = total * 3 / 2
+                "CAN" -> total = total * 5 / 4
+                "GBP" -> total *= 2
+                "USD" -> total = total
+            }
+            when(con){
+                "EUR" -> total = total * 3 / 2
+                "CAN" -> total = total * 5 / 4
+                "GBP" -> total /= 2
+                "USD" -> total = total
+            }
+            return Money(total, con)
+        }
+
+        operator fun plus(money: Money): Money {
+            val convert = money.convert(this.currency)
+            return Money(this.amount + convert.amount, this.currency)
+        }
+    }
+
 
 // ============ DO NOT EDIT BELOW THIS LINE =============
 
